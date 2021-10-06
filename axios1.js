@@ -1,7 +1,8 @@
 let btn = document.getElementById("btn");
 let myDiv = document.getElementById("myDiv");
-let inputILS = document.getElementById("inputILS");
-const currencyOptions = document.getElementById("currencyOptions");
+let inputUser = document.getElementById("inputILS");
+let selectFrom = document.getElementById("selectFrom");
+let selectTo = document.getElementById("selectTo");
 
 // //!..........................12
 
@@ -54,7 +55,6 @@ const currencyOptions = document.getElementById("currencyOptions");
 const API_KEY = `ffd74b2e2ac1ca44c876aee365154964`;
 const url = `http://api.exchangeratesapi.io/v1/latest?access_key=${API_KEY}`;
 
-
 axios
   .get(url)
   .then(function (response) {
@@ -63,7 +63,8 @@ axios
       console.log(response.data);
       const rates = response.data.rates;
       for (const key in rates) {
-        currencyOptions.innerHTML += `<option value="${rates[key]}" class="allOptions">${key}</option>`;
+        selectFrom.innerHTML += `<option value="${rates[key]}">${key}</option>`;
+        selectTo.innerHTML += `<option value="${rates[key]}">${key}</option>`;
       }
     }
   })
@@ -74,16 +75,8 @@ axios
 
 const allOptions = document.getElementsByClassName("allOptions");
 
-
-btn.onclick = function(){
-  let element
-for (let i = 0; i < allOptions.length; i++) {
-  element = allOptions[currencyOptions.selectedIndex];
-  myDiv.innerHTML = element.value / inputILS.value
-  
-}
+btn.onclick = function () {
+  let gate1 = selectFrom[selectFrom.selectedIndex];
+  let gate2 = selectTo[selectTo.selectedIndex];
+  myDiv.innerHTML = (inputUser.value / (gate1.value / gate2.value)).toFixed(2);
 };
-
-
-
-
